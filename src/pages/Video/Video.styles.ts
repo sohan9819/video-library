@@ -96,7 +96,8 @@ export const Subscribe = styled.button`
   height: max-content;
   background: #cc1a00;
   font-weight: 500;
-  color: ${({ theme }) => theme.text};
+  /* color: ${({ theme }) => theme.text}; */
+  color: white;
   border-radius: 0.3rem;
   padding: 1rem 2rem;
   cursor: pointer;

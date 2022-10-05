@@ -4,7 +4,8 @@
     [
       "@babel/preset-react",
       {
-        "runtime": "automatic"
+        "runtime": "automatic",
+        "useBuiltIns": "entry"
       }
     ],
     "@babel/preset-typescript"

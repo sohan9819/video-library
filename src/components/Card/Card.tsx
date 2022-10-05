@@ -9,10 +9,13 @@ import {
   ChannelName,
   Info,
 } from './Card.styles'
+import { VideoType } from '../../utils/Video'
 import { Link } from 'react-router-dom'
 
 type CardProps = {
   type?: string
+  key?: string
+  video: VideoType
 }
 
 export const Card = ({ type }: CardProps) => {

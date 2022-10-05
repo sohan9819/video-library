@@ -50,14 +50,18 @@ export const Menu = ({ darkMode, setDarkMode }: MenuProps) => {
             Home
           </Item>
         </Link>
-        <Item>
-          <MdOutlineExplore />
-          Explore
-        </Item>
-        <Item>
-          <MdOutlineSubscriptions />
-          Subscriptions
-        </Item>
+        <Link to={'trends'}>
+          <Item>
+            <MdOutlineExplore />
+            Explore
+          </Item>
+        </Link>
+        <Link to={'subscribtions'}>
+          <Item>
+            <MdOutlineSubscriptions />
+            Subscriptions
+          </Item>
+        </Link>
         <Hr />
         <Item>
           <MdOutlineVideoLibrary />

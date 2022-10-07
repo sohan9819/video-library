@@ -29,6 +29,8 @@ export const ChannelImage = styled.img`
   border-radius: 50%;
   background-color: #999;
   display: ${(props) => props.typeof === 'sm' && 'none'};
+  object-position: center;
+  object-fit: fill;
 `
 export const Texts = styled.div`
   display: flex;

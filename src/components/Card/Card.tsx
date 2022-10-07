@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import {
   Container,
   Image,
@@ -11,6 +11,9 @@ import {
 } from './Card.styles'
 import { VideoType } from '../../utils/Video'
 import { Link } from 'react-router-dom'
+import { format } from 'timeago.js'
+import axios from 'axios'
+import { ChannelType } from '../../utils/User'
 
 type CardProps = {
   type?: string
@@ -18,23 +21,31 @@ type CardProps = {
   video: VideoType
 }
 
-export const Card = ({ type }: CardProps) => {
+export const Card = ({ type, video }: CardProps) => {
+  const [channel, setChannel] = useState({} as ChannelType)
+
+  useEffect(() => {
+    const fetchChannel = async () => {
+      const res = await axios.get(`/users/find/${video.userId}`)
+      setChannel(res.data)
+    }
+    fetchChannel()
+  }, [video.userId])
+
+  const formatter = Intl.NumberFormat('en', { notation: 'compact' })
+
   return (
     <Link to={'/video/test'}>
       <Container typeof={type}>
-        <Image
-          typeof={type}
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZNy72t2nzCvuU44-H7Boi6k1fcYTAZBWfhA&usqp=CAU"
-        />
+        <Image typeof={type} src={video.imgUrl} />
         <Details typeof={type}>
-          <ChannelImage
-            typeof={type}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaRd7ymrF9STpUDnhrPLQV318Jdlie0haWnw&usqp=CAU"
-          />
+          <ChannelImage typeof={type} src={channel.img} />
           <Texts>
-            <Title>Test Videos</Title>
-            <ChannelName>AnimeTube</ChannelName>
-            <Info>660,908 views • 1 day ago</Info>
+            <Title>{video.title}</Title>
+            <ChannelName>{channel.name}</ChannelName>
+            <Info>
+              {formatter.format(10000)} views • {format(video.createdAt)}
+            </Info>
           </Texts>
         </Details>
       </Container>

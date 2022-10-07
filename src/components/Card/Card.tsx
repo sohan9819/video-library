@@ -44,7 +44,7 @@ export const Card = ({ type, video }: CardProps) => {
             <Title>{video.title}</Title>
             <ChannelName>{channel.name}</ChannelName>
             <Info>
-              {formatter.format(10000)} views • {format(video.createdAt)}
+              {formatter.format(video.views)} views • {format(video.createdAt)}
             </Info>
           </Texts>
         </Details>

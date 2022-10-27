@@ -5,6 +5,7 @@ export const Container = styled.div`
   top: 0;
   background-color: ${({ theme }) => theme.bg};
   height: 5.6rem;
+  z-index: 10;
 `
 export const Wrapper = styled.div`
   display: flex;
@@ -55,4 +56,24 @@ export const Button = styled.button`
     background: #3ea6ff;
     color: ${({ theme }) => theme.bg};
   }
+`
+
+export const User = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
+  font-size: 1.5rem;
+
+  & .video-icon {
+    font-size: 3rem;
+  }
+`
+
+export const Avatar = styled.img`
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  background-color: #999;
 `

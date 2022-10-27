@@ -37,6 +37,10 @@ export const Input = styled.input`
   color: inherit;
 `
 export const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   border-radius: 3px;
   border: none;
   padding: 1rem 2rem;
@@ -44,6 +48,10 @@ export const Button = styled.button`
   cursor: pointer;
   background-color: ${({ theme }) => theme.soft};
   color: ${({ theme }) => theme.textSoft};
+
+  & .google-icon {
+    font-size: 2rem;
+  }
 `
 export const More = styled.div`
   display: flex;

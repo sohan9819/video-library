@@ -1,6 +1,6 @@
 import { ObjectId, Int32 } from 'mongodb'
 
-export type ChannelType = {
+export type UserType = {
   _id: ObjectId
   name: string
   email: string

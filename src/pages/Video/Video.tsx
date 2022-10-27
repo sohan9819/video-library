@@ -1,8 +1,7 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import {
   Container,
   Content,
-  Recommendation,
   VideoWrapper,
   Title,
   Details,
@@ -22,44 +21,102 @@ import {
 } from './Video.styles'
 import {
   MdThumbUpOffAlt,
+  MdThumbUp,
   MdThumbDownOffAlt,
+  MdThumbDown,
   MdOutlineAddTask,
 } from 'react-icons/md'
 import { RiShareForwardLine } from 'react-icons/ri'
-import { Comments, Card } from '../../components'
+import { Comments } from '../../components'
+import { getCurrentUser, subscribtion } from '../../features/auth/authSlice'
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import { UserType } from '../../utils/User'
+import {
+  fetchSuccess,
+  getCurrentVideo,
+  like,
+  dislike,
+} from '../../features/video/videoSlice'
+import { formatter } from '../../utils/utils'
+import { format } from 'timeago.js'
 
 export const Video = () => {
+  const dispatch = useDispatch()
+  const currentUser = useSelector(getCurrentUser)
+  const currentVideo = useSelector(getCurrentVideo)
+
+  const { videoId } = useParams()
+  console.log('videoId : ', videoId)
+
+  const [channel, setChannel] = useState({} as UserType)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/videos/find/${videoId}`)
+        const channelRes = await axios.get(
+          `/users/find/${videoRes.data.userId}`
+        )
+        dispatch(fetchSuccess(videoRes.data))
+        setChannel(channelRes.data)
+        // console.log('Fetch Complete')
+      } catch (_e) {
+        const error = _e as Error
+        console.log(error.message)
+        // console.log('!!!!!!! Fetch Error !!!!!!!!')
+      }
+    }
+    fetchData()
+  }, [videoId, dispatch])
+
+  const handleLike = async () => {
+    await axios.put(`/users/like/${videoId}`)
+    dispatch(like(currentUser._id))
+  }
+  const handleDislike = async () => {
+    await axios.put(`/users/dislike/${videoId}`)
+    dispatch(dislike(currentUser._id))
+  }
+
+  const handleSub = async () => {
+    await axios.put(`/users/sub/${channel._id}`)
+    dispatch(subscribtion(channel._id))
+  }
+
+  const handleUnsub = async () => {
+    await axios.put(`/users/unsub/${channel._id}`)
+    dispatch(subscribtion(channel._id))
+  }
+
   return (
     <Container>
       <Content>
         <VideoWrapper>
-          {/* <iframe
-            width="100%"
-            height="500"
-            src="https://www.youtube.com/embed/50VNCymT-Cs"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe> */}
-          <VideoPlayer
-            src="https://www.youtube.com/embed/50VNCymT-Cs"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></VideoPlayer>
-          <Title>
-            Alec Benjamin - Let Me Down Slowly [Official Music Video]
-          </Title>
+          <VideoPlayer src={currentVideo.videoUrl} controls />
+          <Title>{currentVideo.title}</Title>
           <Details>
-            <Info>406,646,962 views • Jun 2018</Info>
+            <Info>
+              {formatter(currentVideo.views)} views •{' '}
+              {format(currentVideo.createdAt)}
+            </Info>
             <Buttons>
-              <Button>
-                <MdThumbUpOffAlt /> 2.9M
+              <Button onClick={handleLike}>
+                {currentVideo.likes?.includes(currentUser._id) ? (
+                  <MdThumbUp />
+                ) : (
+                  <MdThumbUpOffAlt />
+                )}
+                {formatter(currentVideo.likes?.length)}
               </Button>
-              <Button>
-                <MdThumbDownOffAlt /> Dislike
+              <Button onClick={handleDislike}>
+                {currentVideo.dislikes?.includes(currentUser._id) ? (
+                  <MdThumbDown />
+                ) : (
+                  <MdThumbDownOffAlt />
+                )}{' '}
+                Dislike
               </Button>
               <Button>
                 <RiShareForwardLine /> Share
@@ -73,24 +130,29 @@ export const Video = () => {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src="https://yt3.ggpht.com/YMwULMyrvzEFMOYI38PYfoddFBf7DAbla-KVJmJct5kuFslutvl-Myk1P9H6cQguAO_dyCpvCQ=s48-c-k-c0x00ffffff-no-nd-rj" />
+            <Image src={channel.img} />
             <ChannelDetail>
-              <ChannelName>Alec Benjamin</ChannelName>
-              <ChannelCounter>4.36M subscribers</ChannelCounter>
-              <Description>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Assumenda, perferendis non alias inventore reprehenderit odit
-                quisquam modi odio soluta nobis magni deserunt quibusdam
-                consectetur, quos, aspernatur sit nesciunt nemo numquam
-              </Description>
+              <ChannelName>{channel.name}</ChannelName>
+              <ChannelCounter>
+                {formatter(channel.subscribers)} subscribers
+              </ChannelCounter>
+              <Description>{currentVideo.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe>Subscribe</Subscribe>
+
+          {currentUser.subscribedUsers?.includes(channel._id) ? (
+            <Subscribe subscribed onClick={handleUnsub}>
+              {' '}
+              SUBSCRIBED{' '}
+            </Subscribe>
+          ) : (
+            <Subscribe onClick={handleSub}> SUBSCRIBE </Subscribe>
+          )}
         </Channel>
         <Hr />
-        <Comments />
+        <Comments videoId={currentVideo._id} />
       </Content>
-      <Recommendation>
+      {/* <Recommendation>
         <Card type="sm" />
         <Card type="sm" />
         <Card type="sm" />
@@ -104,7 +166,7 @@ export const Video = () => {
         <Card type="sm" />
         <Card type="sm" />
         <Card type="sm" />
-      </Recommendation>
+      </Recommendation> */}
     </Container>
   )
 }

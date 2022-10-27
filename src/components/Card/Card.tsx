@@ -13,16 +13,17 @@ import { VideoType } from '../../utils/Video'
 import { Link } from 'react-router-dom'
 import { format } from 'timeago.js'
 import axios from 'axios'
-import { ChannelType } from '../../utils/User'
+import { UserType } from '../../utils/User'
+import { formatter } from '../../utils/utils'
 
 type CardProps = {
   type?: string
-  key?: string
+  key?: string | number
   video: VideoType
 }
 
 export const Card = ({ type, video }: CardProps) => {
-  const [channel, setChannel] = useState({} as ChannelType)
+  const [channel, setChannel] = useState<UserType>({} as UserType)
 
   useEffect(() => {
     const fetchChannel = async () => {
@@ -32,10 +33,10 @@ export const Card = ({ type, video }: CardProps) => {
     fetchChannel()
   }, [video.userId])
 
-  const formatter = Intl.NumberFormat('en', { notation: 'compact' })
+  // const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
   return (
-    <Link to={'/video/test'}>
+    <Link to={`/video/${video._id}`}>
       <Container typeof={type}>
         <Image typeof={type} src={video.imgUrl} />
         <Details typeof={type}>
@@ -44,7 +45,7 @@ export const Card = ({ type, video }: CardProps) => {
             <Title>{video.title}</Title>
             <ChannelName>{channel.name}</ChannelName>
             <Info>
-              {formatter.format(video.views)} views • {format(video.createdAt)}
+              {formatter(video.views)} views • {format(video.createdAt)}
             </Info>
           </Texts>
         </Details>

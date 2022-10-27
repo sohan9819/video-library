@@ -19,6 +19,15 @@ export const Details = styled.div`
   color: ${({ theme }) => theme.text};
 `
 
+export const Actions = styled.div`
+  justify-self: flex-end;
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+`
+
 export const Name = styled.span`
   font-size: 1.6rem;
   font-weight: 500;
@@ -35,3 +44,31 @@ export const Text = styled.span`
   color: ${({ theme }) => theme.text};
   line-height: 2rem;
 `
+
+type ButtonType = {
+  variant: 'edit' | 'delete'
+}
+
+export const Button = styled.button<ButtonType>`
+  height: max-content;
+  width: max-content;
+  padding: 0.5rem 1.5rem;
+  background-color: transparent;
+  border: 1px solid
+    ${(props) => (props.variant == 'edit' ? '#ffb86c' : '#ff5555')};
+  color: ${(props) => (props.variant == 'edit' ? '#ffb86c' : '#ff5555')};
+  border-radius: 0.3rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  cursor: pointer;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem; */
+
+  &:hover {
+    background: ${(props) => (props.variant == 'edit' ? '#ffb86c' : '#ff5555')};
+    color: ${({ theme }) => theme.bg};
+  }
+`
+// #ffb86c

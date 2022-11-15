@@ -6,9 +6,12 @@ import { useState } from 'react'
 import { Container, Main, Wrapper } from './App.styles'
 import { BrowserRouter } from 'react-router-dom'
 import Router from './routes/Router'
+import axios from 'axios'
 
 export const App = () => {
   const [darkMode, setDarkMode] = useState(true)
+
+  axios.defaults.baseURL = 'https://animetube-server.herokuapp.com/api'
 
   return (
     <>

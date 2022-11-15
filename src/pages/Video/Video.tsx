@@ -27,7 +27,7 @@ import {
   MdOutlineAddTask,
 } from 'react-icons/md'
 import { RiShareForwardLine } from 'react-icons/ri'
-import { Comments } from '../../components'
+import { Comments, Recommendation } from '../../components'
 import { getCurrentUser, subscribtion } from '../../features/auth/authSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -152,21 +152,7 @@ export const Video = () => {
         <Hr />
         <Comments videoId={currentVideo._id} />
       </Content>
-      {/* <Recommendation>
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-      </Recommendation> */}
+      <Recommendation tags={currentVideo.tags} />
     </Container>
   )
 }

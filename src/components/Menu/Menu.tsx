@@ -30,6 +30,8 @@ import {
 } from 'react-icons/md'
 import { IoGameControllerOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { getCurrentUser, logout } from '../../features/auth/authSlice'
 
 type MenuProps = {
   darkMode: boolean
@@ -37,6 +39,13 @@ type MenuProps = {
 }
 
 export const Menu = ({ darkMode, setDarkMode }: MenuProps) => {
+  const currentUser = useSelector(getCurrentUser)
+  const dispatch = useDispatch()
+
+  const handleLogout = () => {
+    dispatch(logout())
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -50,14 +59,18 @@ export const Menu = ({ darkMode, setDarkMode }: MenuProps) => {
             Home
           </Item>
         </Link>
-        <Item>
-          <MdOutlineExplore />
-          Explore
-        </Item>
-        <Item>
-          <MdOutlineSubscriptions />
-          Subscriptions
-        </Item>
+        <Link to={'trends'}>
+          <Item>
+            <MdOutlineExplore />
+            Explore
+          </Item>
+        </Link>
+        <Link to={'subscribtion'}>
+          <Item>
+            <MdOutlineSubscriptions />
+            Subscriptions
+          </Item>
+        </Link>
         <Hr />
         <Item>
           <MdOutlineVideoLibrary />
@@ -67,16 +80,25 @@ export const Menu = ({ darkMode, setDarkMode }: MenuProps) => {
           <MdOutlineHistory />
           History
         </Item>
-        <Hr />
-        <Login>
-          Sign in to like videos , comment and subscribe
-          <Link to={'/signin'}>
-            <Button>
-              <MdOutlineAccountCircle className="user-icon" />
-              SIGN IN
-            </Button>
-          </Link>
-        </Login>
+        {!currentUser ? (
+          <>
+            <Hr />
+            <Login>
+              Sign in to like videos , comment and subscribe
+              <Link to={'/signin'}>
+                <Button>
+                  <MdOutlineAccountCircle className="user-icon" />
+                  SIGN IN
+                </Button>
+              </Link>
+            </Login>
+          </>
+        ) : (
+          <Button primary onClick={handleLogout}>
+            Logout
+          </Button>
+        )}
+
         <Hr />
         <Title>Best of AnimeTube</Title>
         <Item>

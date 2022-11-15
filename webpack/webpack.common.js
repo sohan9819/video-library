@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 // const CopyPlugin = require('copy-webpack-plugin')
 
 // const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -42,6 +43,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '..', './build'),
     filename: 'bundle.js',
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -4,8 +4,8 @@ import { Menu, Navbar } from './components'
 import { darkTheme, lightTheme } from './utils/Theme'
 import { useState } from 'react'
 import { Container, Main, Wrapper } from './App.styles'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Home, Video, SignIn } from './pages'
+import { BrowserRouter } from 'react-router-dom'
+import Router from './routes/Router'
 
 export const App = () => {
   const [darkMode, setDarkMode] = useState(true)
@@ -19,15 +19,7 @@ export const App = () => {
             <Main>
               <Navbar />
               <Wrapper>
-                <Routes>
-                  <Route path="/">
-                    <Route index element={<Home />}></Route>
-                    <Route path="signin" element={<SignIn />}></Route>
-                    <Route path="video">
-                      <Route path=":videoId" element={<Video />} />
-                    </Route>
-                  </Route>
-                </Routes>
+                <Router />
               </Wrapper>
             </Main>
           </Container>

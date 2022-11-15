@@ -65,11 +65,16 @@ export const Hr = styled.hr`
 export const Login = styled.div`
   line-height: 1.8rem;
 `
-export const Button = styled.button`
+
+type ButtonType = {
+  primary?: true
+}
+
+export const Button = styled.button<ButtonType>`
   padding: 0.5rem 1.5rem;
   background-color: transparent;
-  border: 1px solid #3ea6ff;
-  color: #3ea6ff;
+  border: 1px solid ${(props) => (props.primary ? '#ff5555' : '#3ea6ff')};
+  color: ${(props) => (props.primary ? '#ff5555' : '#3ea6ff')};
   border-radius: 0.3rem;
   font-weight: 500;
   margin-top: 1rem;
@@ -84,7 +89,7 @@ export const Button = styled.button`
   }
 
   &:hover {
-    background: #3ea6ff;
+    background: ${(props) => (props.primary ? '#ff5555' : '#3ea6ff')};
     color: ${({ theme }) => theme.bg};
   }
 `

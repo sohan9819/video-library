@@ -13,11 +13,17 @@ export const VideoWrapper = styled.div`
   flex: 5;
 `
 
-export const VideoPlayer = styled.iframe`
+export const VideoPlayer = styled.video`
+  max-height: 720px;
   width: 100%;
-  height: 30vw;
-  min-height: 20rem;
+  object-fit: cover;
 `
+
+// export const VideoPlayer = styled.iframe`
+//   width: 100%;
+//   height: 30vw;
+//   min-height: 20rem;
+// `
 
 export const Title = styled.h1`
   font-size: 1.8rem;
@@ -92,9 +98,14 @@ export const Description = styled.p`
   line-height: 2rem;
   font-weight: 400;
 `
-export const Subscribe = styled.button`
+
+type SubscribeProps = {
+  subscribed?: boolean
+}
+
+export const Subscribe = styled.button<SubscribeProps>`
   height: max-content;
-  background: #cc1a00;
+  background: ${(props) => (props.subscribed ? '#0c0c0ccc' : '#cc1a00')};
   font-weight: 500;
   /* color: ${({ theme }) => theme.text}; */
   color: white;

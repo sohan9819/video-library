@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
   padding: 0rem 2rem;
   position: relative;
 `
-export const Search = styled.div`
+export const Search = styled.form`
   width: 40%;
   margin: auto;
   display: flex;
@@ -26,9 +26,6 @@ export const Search = styled.div`
   border-radius: 3px;
   color: ${({ theme }) => theme.text};
   gap: 0.6rem;
-  & .search-icon {
-    font-size: 1.6rem;
-  }
 `
 export const Input = styled.input`
   width: 100%;
@@ -37,6 +34,13 @@ export const Input = styled.input`
   outline: none;
   color: inherit;
 `
+export const SearchButton = styled.button`
+  border: none;
+  background-color: transparent;
+  font-size: 1.6rem;
+  color: ${({ theme }) => theme.text};
+`
+
 export const Button = styled.button`
   padding: 0.5rem 1.5rem;
   background-color: transparent;

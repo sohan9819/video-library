@@ -8,6 +8,8 @@ type HomeProps = {
   type: string
 }
 
+// declare const BASE_URL: string
+
 export const Home = ({ type }: HomeProps) => {
   const [videos, setVideos] = useState([])
 

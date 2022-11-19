@@ -9,7 +9,7 @@ module.exports = {
     open: true,
     proxy: {
       '/': {
-        target: 'http://localhost:3000/api/',
+        target: 'http://localhost:3000/api',
         secure: false,
       },
     },
@@ -18,6 +18,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.name': JSON.stringify('Sohan'),
+      BASE_URL: JSON.stringify('http://localhost:3000/api'),
     }),
     new ReactRefreshWebpackPlugin(),
   ],

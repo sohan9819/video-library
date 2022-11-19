@@ -29,7 +29,7 @@ import {
   MdOutlineAccountCircle,
 } from 'react-icons/md'
 import { IoGameControllerOutline } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getCurrentUser, logout } from '../../features/auth/authSlice'
 
@@ -41,9 +41,11 @@ type MenuProps = {
 export const Menu = ({ darkMode, setDarkMode }: MenuProps) => {
   const currentUser = useSelector(getCurrentUser)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleLogout = () => {
     dispatch(logout())
+    navigate('/')
   }
 
   return (

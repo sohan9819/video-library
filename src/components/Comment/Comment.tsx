@@ -16,6 +16,8 @@ import { format } from 'timeago.js'
 import { getCurrentUser } from '../../features/auth/authSlice'
 import { useSelector } from 'react-redux'
 
+// declare const BASE_URL: string
+
 type CommentProps = {
   key: number
   comment: CommentType
@@ -53,7 +55,7 @@ export const Comment = ({ comment, fetchComments }: CommentProps) => {
         </Name>
         <Text>{comment.desc}</Text>
       </Details>
-      {comment.userId === currentUser._id ? (
+      {comment.userId === currentUser?._id ? (
         <Actions>
           {' '}
           {/* <Button variant="edit">Edit</Button> */}

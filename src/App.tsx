@@ -10,6 +10,8 @@ import Router from './routes/Router'
 export const App = () => {
   const [darkMode, setDarkMode] = useState(true)
 
+  // axios.defaults.baseURL = 'http://localhost:3000/api'
+
   return (
     <>
       <BrowserRouter>

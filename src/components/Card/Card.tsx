@@ -16,6 +16,8 @@ import axios from 'axios'
 import { UserType } from '../../utils/User'
 import { formatter } from '../../utils/utils'
 
+// declare const BASE_URL: string
+
 type CardProps = {
   type?: string
   key?: string | number

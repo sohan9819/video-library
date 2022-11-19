@@ -8,6 +8,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.name': JSON.stringify('Snicker'),
+      BASE_URL: JSON.stringify('https://animetube-server.herokuapp.com/api'),
     }),
     // new BundleAnalyzerPlugin(),
   ],

@@ -53,11 +53,20 @@ export const Comments = ({ videoId }: CommentsProps) => {
 
   return (
     <Container>
-      <NewComment onSubmit={handleNewComment}>
-        <Avatar src={currentUser.img} />
+      {currentUser ? (
+        <NewComment onSubmit={handleNewComment}>
+          <Avatar src={currentUser?.img} />
+          <Input name="comment" placeholder="Add a comment..." />
+          <Button type="submit">Comment</Button>
+        </NewComment>
+      ) : (
+        ''
+      )}
+      {/* <NewComment onSubmit={handleNewComment}>
+        <Avatar src={currentUser?.img} />
         <Input name="comment" placeholder="Add a comment..." />
         <Button type="submit">Comment</Button>
-      </NewComment>
+      </NewComment> */}
       {comments.map((comment, index) => (
         <Comment key={index} comment={comment} fetchComments={fetchComments} />
       ))}

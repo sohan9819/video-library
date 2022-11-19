@@ -27,7 +27,7 @@ import {
   MdOutlineAddTask,
 } from 'react-icons/md'
 import { RiShareForwardLine } from 'react-icons/ri'
-import { Comments } from '../../components'
+import { Comments, Recommendation } from '../../components'
 import { getCurrentUser, subscribtion } from '../../features/auth/authSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -41,6 +41,8 @@ import {
 } from '../../features/video/videoSlice'
 import { formatter } from '../../utils/utils'
 import { format } from 'timeago.js'
+
+// declare const BASE_URL: string
 
 export const Video = () => {
   const dispatch = useDispatch()
@@ -73,11 +75,11 @@ export const Video = () => {
 
   const handleLike = async () => {
     await axios.put(`/users/like/${videoId}`)
-    dispatch(like(currentUser._id))
+    dispatch(like(currentUser?._id))
   }
   const handleDislike = async () => {
     await axios.put(`/users/dislike/${videoId}`)
-    dispatch(dislike(currentUser._id))
+    dispatch(dislike(currentUser?._id))
   }
 
   const handleSub = async () => {
@@ -101,30 +103,48 @@ export const Video = () => {
               {formatter(currentVideo.views)} views •{' '}
               {format(currentVideo.createdAt)}
             </Info>
-            <Buttons>
-              <Button onClick={handleLike}>
-                {currentVideo.likes?.includes(currentUser._id) ? (
-                  <MdThumbUp />
-                ) : (
-                  <MdThumbUpOffAlt />
-                )}
-                {formatter(currentVideo.likes?.length)}
-              </Button>
-              <Button onClick={handleDislike}>
-                {currentVideo.dislikes?.includes(currentUser._id) ? (
-                  <MdThumbDown />
-                ) : (
+            {currentUser ? (
+              <Buttons>
+                <Button onClick={handleLike}>
+                  {currentVideo.likes?.includes(currentUser?._id) ? (
+                    <MdThumbUp />
+                  ) : (
+                    <MdThumbUpOffAlt />
+                  )}
+                  {formatter(currentVideo.likes?.length)}
+                </Button>
+                <Button onClick={handleDislike}>
+                  {currentVideo.dislikes?.includes(currentUser?._id) ? (
+                    <MdThumbDown />
+                  ) : (
+                    <MdThumbDownOffAlt />
+                  )}{' '}
+                  Dislike
+                </Button>
+                <Button>
+                  <RiShareForwardLine /> Share
+                </Button>
+                <Button>
+                  <MdOutlineAddTask /> Save
+                </Button>
+              </Buttons>
+            ) : (
+              <Buttons>
+                <Button>
+                  <MdThumbUpOffAlt /> {formatter(currentVideo.likes?.length)}
+                </Button>
+                <Button onClick={handleDislike}>
                   <MdThumbDownOffAlt />
-                )}{' '}
-                Dislike
-              </Button>
-              <Button>
-                <RiShareForwardLine /> Share
-              </Button>
-              <Button>
-                <MdOutlineAddTask /> Save
-              </Button>
-            </Buttons>
+                  Dislike
+                </Button>
+                <Button>
+                  <RiShareForwardLine /> Share
+                </Button>
+                <Button>
+                  <MdOutlineAddTask /> Save
+                </Button>
+              </Buttons>
+            )}
           </Details>
         </VideoWrapper>
         <Hr />
@@ -140,7 +160,7 @@ export const Video = () => {
             </ChannelDetail>
           </ChannelInfo>
 
-          {currentUser.subscribedUsers?.includes(channel._id) ? (
+          {currentUser?.subscribedUsers?.includes(channel._id) ? (
             <Subscribe subscribed onClick={handleUnsub}>
               {' '}
               SUBSCRIBED{' '}
@@ -152,21 +172,7 @@ export const Video = () => {
         <Hr />
         <Comments videoId={currentVideo._id} />
       </Content>
-      {/* <Recommendation>
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-      </Recommendation> */}
+      <Recommendation tags={currentVideo.tags} />
     </Container>
   )
 }
